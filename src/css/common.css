@@ -46,3 +46,20 @@ button[data-start]:hover,
 button[data-start]:focus {
   background-color: #c3c3c3;
 }
+
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.timer {
+  display: flex;
+  gap: 30px;
+}
+
+span.value {
+  font-size: 44px;
+  font-weight: 600;
+}
