@@ -1,27 +1,47 @@
-const btnStart = document.querySelector('button[data-start]');
-const btnStop = document.querySelector('button[data-stop]');
-let intervalID;
+class ColorSwitcher {
+  constructor({ btnStart, btnStop }) {
+    this.btnStart = btnStart;
+    this.btnStop = btnStop;
+    this.intervalID = null;
+  }
 
-btnStop.disabled = true;
-btnStart.style.cursor = 'pointer';
-btnStop.style.cursor = 'pointer';
+  init() {
+    this.addListeners();
+  }
 
-btnStart.addEventListener('click', () => {
-  intervalID = setInterval(setBodyBGColor, 1000);
-  btnStart.disabled = true;
-  btnStop.disabled = false;
-});
+  addListeners() {
+    this.btnStart.addEventListener('click', this.onBtnStart.bind(this));
+    this.btnStop.addEventListener('click', this.onBtnStop.bind(this));
+  }
 
-btnStop.addEventListener('click', () => {
-  clearInterval(intervalID);
-  btnStart.disabled = false;
-  btnStop.disabled = true;
-});
+  onBtnStart() {
+    this.intervalID = setInterval(this.setBodyBGColor.bind(this), 1000);
+    this.btnStart.disabled = true;
+    this.btnStop.disabled = false;
+  }
 
-function setBodyBGColor() {
-  window.document.body.style.backgroundColor = getRandomHexColor();
+  onBtnStop() {
+    clearInterval(this.intervalID);
+    this.btnStart.disabled = false;
+    this.btnStop.disabled = true;
+  }
+
+  setBodyBGColor() {
+    window.document.body.style.backgroundColor = this.getRandomHexColor();
+  }
+
+  getRandomHexColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
 }
 
-function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
+const ref = {
+  btnStart: document.querySelector('button[data-start]'),
+  btnStop: document.querySelector('button[data-stop]'),
+};
+
+ref.btnStop.disabled = true;
+ref.btnStart.style.cursor = 'pointer';
+ref.btnStop.style.cursor = 'pointer';
+
+new ColorSwitcher(ref).init();
